@@ -20,14 +20,6 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.UUID;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-
-import net.minecraft.world.item.FireChargeItem;
-import net.minecraft.world.item.ItemStack;
-
-import net.minecraft.world.phys.Vec3;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +30,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -52,6 +45,9 @@ import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestDedicatedServerContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestServerConnection;
+import net.fabricmc.fabric.impl.attachment.AttachmentTargetImpl;
+import net.fabricmc.fabric.impl.attachment.sync.AttachmentChange;
+import net.fabricmc.fabric.impl.attachment.sync.AttachmentSync;
 import net.fabricmc.fabric.test.attachment.AttachmentTestMod;
 
 public class SyncGametest implements FabricClientGameTest {
@@ -146,10 +142,8 @@ public class SyncGametest implements FabricClientGameTest {
 					// check that the client changes the render distance as requested
 					player.setAttached(AttachmentTestMod.SYNCED_RENDER_DISTANCE, 8);
 
-					ItemStack fireCharges = new ItemStack(Items.FIRE_CHARGE, 64);
-					for (int i = 0; i < 50; i++) {
-						((FireChargeItem) Items.FIRE_CHARGE).asProjectile(server.getLevel(Level.OVERWORLD), new Vec3(0,0,0), fireCharges, Direction.EAST);
-					}
+					var zombie = new Zombie(EntityType.ZOMBIE, server.getLevel(Level.OVERWORLD));
+					AttachmentSync.trySync(new AttachmentChange(((AttachmentTargetImpl) zombie).fabric_getSyncTargetInfo(), AttachmentTestMod.SYNCED_WITH_ALL, new byte[]{1,1}), player);
 				});
 
 				// safety
