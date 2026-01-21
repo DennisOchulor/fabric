@@ -44,7 +44,9 @@ public class AttachmentSyncClient implements ClientModInitializer {
 							attachmentChange.tryApply(context.client().level);
 						} catch (AttachmentSyncException e) {
 							AttachmentEntrypoint.LOGGER.error("Error accepting attachment changes", e);
-							context.responseSender().disconnect(e.getComponent());
+							AttachmentEntrypoint.LOGGER.error(e.getComponent().getString());
+							AttachmentEntrypoint.LOGGER.error("Sync Type: {}", payload.debugInfo().type());
+							AttachmentEntrypoint.LOGGER.error("Stack trace before sending packet:\n {}", payload.debugInfo().stackTrace());
 							break;
 						}
 					}

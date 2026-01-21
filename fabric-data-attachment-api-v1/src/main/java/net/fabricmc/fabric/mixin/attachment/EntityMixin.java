@@ -16,6 +16,9 @@
 
 package net.fabricmc.fabric.mixin.attachment;
 
+import net.minecraft.world.entity.EntityType;
+
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -46,6 +49,13 @@ abstract class EntityMixin implements AttachmentTargetImpl {
 	@Shadow
 	public abstract Level level();
 
+	@Shadow
+	protected String stringUUID;
+
+	@Shadow
+	@Final
+	private EntityType<?> type;
+
 	@Inject(
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/world/level/storage/ValueInput;)V"),
 			method = "load"
@@ -64,7 +74,7 @@ abstract class EntityMixin implements AttachmentTargetImpl {
 
 	@Override
 	public AttachmentTargetInfo<?> fabric_getSyncTargetInfo() {
-		return new AttachmentTargetInfo.EntityTarget(this.id);
+		return new AttachmentTargetInfo.EntityTarget(this.id, this.stringUUID, this.type.toString());
 	}
 
 	@Override

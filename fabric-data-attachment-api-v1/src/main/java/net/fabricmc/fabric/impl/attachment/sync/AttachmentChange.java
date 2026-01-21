@@ -59,7 +59,7 @@ public record AttachmentChange(AttachmentTargetInfo<?> targetInfo, AttachmentTyp
 			ByteBufCodecs.BYTE_ARRAY, AttachmentChange::data,
 			AttachmentChange::new
 	);
-	private static final int MAX_PADDING_SIZE_IN_BYTES = AttachmentTargetInfo.MAX_SIZE_IN_BYTES + AttachmentSync.MAX_IDENTIFIER_SIZE;
+	private static final int MAX_PADDING_SIZE_IN_BYTES = AttachmentTargetInfo.MAX_SIZE_IN_BYTES + AttachmentSync.MAX_IDENTIFIER_SIZE + 10000;
 	private static final int MAX_DATA_SIZE_IN_BYTES = ServerboundCustomPayloadPacketAccessor.getMaxPayloadSize() - MAX_PADDING_SIZE_IN_BYTES;
 
 	@SuppressWarnings("unchecked")
@@ -107,7 +107,7 @@ public record AttachmentChange(AttachmentTargetInfo<?> targetInfo, AttachmentTyp
 			int size = MAX_PADDING_SIZE_IN_BYTES + change.data.length;
 
 			if (!packetChanges.isEmpty() && byteSize + size > MAX_DATA_SIZE_IN_BYTES) {
-				ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(List.copyOf(packetChanges)));
+				ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(List.copyOf(packetChanges), new ClientboundAttachmentSyncPayload.AttSyncDebugInfo("initial")));
 				packetChanges.clear();
 				byteSize = maxVarIntSize;
 			}
@@ -117,7 +117,7 @@ public record AttachmentChange(AttachmentTargetInfo<?> targetInfo, AttachmentTyp
 		}
 
 		if (!packetChanges.isEmpty()) {
-			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(packetChanges));
+			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(packetChanges, new ClientboundAttachmentSyncPayload.AttSyncDebugInfo("initial")));
 		}
 	}
 

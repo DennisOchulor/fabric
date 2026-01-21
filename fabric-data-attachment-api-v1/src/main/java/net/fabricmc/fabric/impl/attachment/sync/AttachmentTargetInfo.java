@@ -36,8 +36,10 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 
 import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 
+import java.util.UUID;
+
 public sealed interface AttachmentTargetInfo<T> {
-	int MAX_SIZE_IN_BYTES = Byte.BYTES + Long.BYTES;
+	int MAX_SIZE_IN_BYTES = Byte.BYTES + Long.BYTES + 100;
 	StreamCodec<ByteBuf, AttachmentTargetInfo<?>> PACKET_CODEC = ByteBufCodecs.BYTE.dispatch(
 			AttachmentTargetInfo::getId, Type::streamCodecFromId
 	);
@@ -102,9 +104,11 @@ public sealed interface AttachmentTargetInfo<T> {
 		}
 	}
 
-	record EntityTarget(int networkId) implements AttachmentTargetInfo<Entity> {
+	record EntityTarget(int networkId, String uuid, String entityType) implements AttachmentTargetInfo<Entity> {
 		static final StreamCodec<ByteBuf, EntityTarget> PACKET_CODEC = StreamCodec.composite(
 				ByteBufCodecs.VAR_INT, EntityTarget::networkId,
+				ByteBufCodecs.STRING_UTF8, EntityTarget::uuid,
+				ByteBufCodecs.STRING_UTF8, Object::toString,
 				EntityTarget::new
 		);
 
@@ -132,6 +136,8 @@ public sealed interface AttachmentTargetInfo<T> {
 							Component.literal(String.valueOf(networkId)).withStyle(ChatFormatting.YELLOW)
 					))
 					.append(CommonComponents.NEW_LINE);
+			component.append("UUID: " + uuid);
+			component.append("Type: " + entityType);
 		}
 	}
 
