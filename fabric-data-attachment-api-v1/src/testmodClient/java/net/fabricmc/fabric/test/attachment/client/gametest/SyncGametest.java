@@ -20,6 +20,14 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.UUID;
 
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+
+import net.minecraft.world.item.FireChargeItem;
+import net.minecraft.world.item.ItemStack;
+
+import net.minecraft.world.phys.Vec3;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,6 +145,11 @@ public class SyncGametest implements FabricClientGameTest {
 
 					// check that the client changes the render distance as requested
 					player.setAttached(AttachmentTestMod.SYNCED_RENDER_DISTANCE, 8);
+
+					ItemStack fireCharges = new ItemStack(Items.FIRE_CHARGE, 64);
+					for (int i = 0; i < 50; i++) {
+						((FireChargeItem) Items.FIRE_CHARGE).asProjectile(server.getLevel(Level.OVERWORLD), new Vec3(0,0,0), fireCharges, Direction.EAST);
+					}
 				});
 
 				// safety

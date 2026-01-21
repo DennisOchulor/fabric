@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "BlockEntityTypeAccessor",
-    "ZombieAccessor"
+    "ZombieAccessor",
+    "TheMixin"
   ],
   "injectors": {
     "defaultRequire": 1
