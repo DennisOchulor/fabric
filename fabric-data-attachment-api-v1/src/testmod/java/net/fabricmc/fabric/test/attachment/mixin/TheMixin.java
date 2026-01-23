@@ -5,16 +5,11 @@ import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.test.attachment.AttachmentTestMod;
 
 import net.minecraft.nbt.CompoundTag;
-
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-
 import net.minecraft.world.level.Level;
 
 import org.spongepowered.asm.mixin.Mixin;
-
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.FireChargeItem;
-
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

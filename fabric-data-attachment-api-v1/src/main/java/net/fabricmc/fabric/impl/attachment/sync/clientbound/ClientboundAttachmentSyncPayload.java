@@ -18,6 +18,8 @@ package net.fabricmc.fabric.impl.attachment.sync.clientbound;
 
 import java.util.List;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -31,11 +33,7 @@ public record ClientboundAttachmentSyncPayload(List<AttachmentChange> attachment
 	public record AttSyncDebugInfo(String type, String stackTrace) {
 
 		public AttSyncDebugInfo(String type) {
-			StringBuilder sb = new StringBuilder();
-			for (StackTraceElement stackTraceElement : new Exception("Att sync debug info").getStackTrace()) {
-				sb.append(stackTraceElement.toString());
-			}
-			this(type, sb.toString());
+			this(type, ExceptionUtils.getStackTrace(new Exception("att sync debug stack trace")));
 		}
 
 		public static final StreamCodec<FriendlyByteBuf, AttSyncDebugInfo> STREAM_CODEC = StreamCodec.composite(
