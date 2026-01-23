@@ -61,6 +61,12 @@ public class AttachmentTestMod implements ModInitializer {
 					.persistent(Codec.BOOL)
 					.syncWith(ByteBufCodecs.BOOL, AttachmentSyncPredicate.all())
 	);
+	public static final AttachmentType<Boolean> SYNCED_WITH_ALL_NOT_PERSISTENT = AttachmentRegistry.create(
+			Identifier.fromNamespaceAndPath(MOD_ID, "synced_all"),
+			builder -> builder
+					.initializer(() -> false)
+					.syncWith(ByteBufCodecs.BOOL, AttachmentSyncPredicate.all())
+	);
 	public static final AttachmentType<Boolean> SYNCED_WITH_TARGET = AttachmentRegistry.create(
 			Identifier.fromNamespaceAndPath(MOD_ID, "synced_target"),
 			builder -> builder
