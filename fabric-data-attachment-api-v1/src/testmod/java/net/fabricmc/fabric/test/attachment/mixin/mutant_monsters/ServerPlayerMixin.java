@@ -23,11 +23,15 @@ public abstract class ServerPlayerMixin extends Player {
 
 	@Inject(method = "setShoulderEntityLeft", at = @At("TAIL"))
 	protected void setShoulderEntityLeft(CompoundTag tag, CallbackInfo callback) {
+		if (!AttachmentTestMod.DEBUG_MUTANT_MONSTERS) return;
+
 		this.modifyAttached(AttachmentTestMod.SYNCED_WITH_ALL, bl -> bl == null || !bl);
 	}
 
 	@Inject(method = "setShoulderEntityRight", at = @At("TAIL"))
 	protected void setShoulderEntityRight(CompoundTag tag, CallbackInfo callback) {
+		if (!AttachmentTestMod.DEBUG_MUTANT_MONSTERS) return;
+
 		this.modifyAttached(AttachmentTestMod.SYNCED_WITH_ALL, bl -> bl == null || !bl);
 	}
 }

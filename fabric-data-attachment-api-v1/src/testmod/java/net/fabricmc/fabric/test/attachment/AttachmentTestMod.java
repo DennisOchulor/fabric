@@ -43,6 +43,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.test.attachment.debug.BlockEntityDebug;
 
 public class AttachmentTestMod implements ModInitializer {
 	public static final String MOD_ID = "fabric-data-attachment-api-v1-testmod";
@@ -102,8 +103,14 @@ public class AttachmentTestMod implements ModInitializer {
 					.syncWith(ByteBufCodecs.INT, AttachmentSyncPredicate.targetOnly())
 	);
 
+	// DEBUG
+	public static final boolean DEBUG_MUTANT_MONSTERS = true;
+	public static final boolean DEBUG_BLOCK_ENTITY = false;
+
 	@Override
 	public void onInitialize() {
+		BlockEntityDebug.debug();
+
 		Registry.register(BuiltInRegistries.FEATURE, Identifier.fromNamespaceAndPath(MOD_ID, "set_attachment"), new SetAttachmentFeature(NoneFeatureConfiguration.CODEC));
 
 		BiomeModifications.addFeature(
