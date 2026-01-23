@@ -141,9 +141,6 @@ public class SyncGametest implements FabricClientGameTest {
 
 					// check that the client changes the render distance as requested
 					player.setAttached(AttachmentTestMod.SYNCED_RENDER_DISTANCE, 8);
-
-					var zombie = new Zombie(EntityType.ZOMBIE, server.getLevel(Level.OVERWORLD));
-					AttachmentSync.trySync(new AttachmentChange(((AttachmentTargetImpl) zombie).fabric_getSyncTargetInfo(), AttachmentTestMod.SYNCED_WITH_ALL, new byte[]{1,1}), player);
 				});
 
 				// safety
