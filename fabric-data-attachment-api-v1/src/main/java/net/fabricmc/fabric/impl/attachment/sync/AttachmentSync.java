@@ -56,7 +56,7 @@ public class AttachmentSync implements ModInitializer {
 				.fabric_getSupportedAttachments();
 
 		if (supported.contains(change.type().identifier())) {
-			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(List.of(change), new ClientboundAttachmentSyncPayload.AttSyncDebugInfo("incremental")));
+			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(List.of(change), AttachmentSyncDebug.nextDebugInfo("incremental")));
 		}
 	}
 

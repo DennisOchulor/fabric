@@ -28,22 +28,10 @@ import net.minecraft.resources.Identifier;
 
 import net.fabricmc.fabric.impl.attachment.sync.AttachmentChange;
 
-public record ClientboundAttachmentSyncPayload(List<AttachmentChange> attachments, AttSyncDebugInfo debugInfo) implements CustomPacketPayload {
-	public record AttSyncDebugInfo(String type, String stackTrace) {
-		public AttSyncDebugInfo(String type) {
-			this(type, ExceptionUtils.getStackTrace(new Exception("att sync debug stack trace")));
-		}
-
-		public static final StreamCodec<FriendlyByteBuf, AttSyncDebugInfo> STREAM_CODEC = StreamCodec.composite(
-				ByteBufCodecs.STRING_UTF8, AttSyncDebugInfo::type,
-				ByteBufCodecs.STRING_UTF8, AttSyncDebugInfo::stackTrace,
-				AttSyncDebugInfo::new
-		);
-	}
-
+public record ClientboundAttachmentSyncPayload(List<AttachmentChange> attachments, int debugId) implements CustomPacketPayload {
 	public static final StreamCodec<FriendlyByteBuf, ClientboundAttachmentSyncPayload> CODEC = StreamCodec.composite(
 			AttachmentChange.PACKET_CODEC.apply(ByteBufCodecs.list()), ClientboundAttachmentSyncPayload::attachments,
-			AttSyncDebugInfo.STREAM_CODEC, ClientboundAttachmentSyncPayload::debugInfo,
+			ByteBufCodecs.INT, ClientboundAttachmentSyncPayload::debugId,
 			ClientboundAttachmentSyncPayload::new
 	);
 	public static final Identifier PACKET_ID = Identifier.fromNamespaceAndPath("fabric", "attachment_sync_v1");

@@ -134,7 +134,6 @@ public sealed interface AttachmentTargetInfo<T> {
 							Component.literal(String.valueOf(networkId)).withStyle(ChatFormatting.YELLOW)
 					))
 					.append(CommonComponents.NEW_LINE);
-			component.append("UUID: " + uuid);
 			component.append("Type: " + entityType);
 		}
 	}

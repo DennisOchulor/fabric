@@ -21,12 +21,17 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
 import net.fabricmc.fabric.impl.attachment.AttachmentTargetImpl;
 
@@ -49,4 +54,13 @@ abstract class ClientPacketListenerMixin {
 		AttachmentTargetImpl.transfer(oldPlayer, newPlayer, !packet.shouldKeep(ClientboundRespawnPacket.KEEP_ATTRIBUTE_MODIFIERS));
 		init.call(client, newPlayer);
 	}
+
+	@Inject(method = "handleAddEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;postAddEntitySoundInstance(Lnet/minecraft/world/entity/Entity;)V"))
+	public void handleAddEntity(ClientboundAddEntityPacket packet, CallbackInfo ci, @Local Entity entity) {
+		if (entity instanceof Player) {
+			System.out.println(entity.getId() + "   " + entity.getUUID());
+			System.out.println(entity.level().getEntity(entity.getId()));
+		}
+	}
+
 }

@@ -83,9 +83,7 @@ abstract class EntityMixin implements AttachmentTargetImpl {
 
 			if ((Object) this instanceof ServerPlayer self && predicate.test(this, self)) {
 				// Players do not track themselves
-				if (self.isAlive()) { // Don't sync to self if currently dead
-					AttachmentSync.trySync(change, self);
-				}
+				AttachmentSync.trySync(change, self);
 			}
 
 			PlayerLookup.tracking((Entity) (Object) this)

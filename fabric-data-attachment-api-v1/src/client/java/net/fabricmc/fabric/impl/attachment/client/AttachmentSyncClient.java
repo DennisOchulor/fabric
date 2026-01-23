@@ -22,6 +22,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.impl.attachment.AttachmentEntrypoint;
 import net.fabricmc.fabric.impl.attachment.sync.AttachmentChange;
 import net.fabricmc.fabric.impl.attachment.sync.AttachmentSync;
+import net.fabricmc.fabric.impl.attachment.sync.AttachmentSyncDebug;
 import net.fabricmc.fabric.impl.attachment.sync.AttachmentSyncException;
 import net.fabricmc.fabric.impl.attachment.sync.clientbound.ClientboundAttachmentSyncPayload;
 import net.fabricmc.fabric.impl.attachment.sync.clientbound.ClientboundRequestAcceptedAttachmentsPayload;
@@ -43,10 +44,10 @@ public class AttachmentSyncClient implements ClientModInitializer {
 						try {
 							attachmentChange.tryApply(context.client().level);
 						} catch (AttachmentSyncException e) {
-							AttachmentEntrypoint.LOGGER.error("Error accepting attachment changes", e);
-							AttachmentEntrypoint.LOGGER.error(e.getComponent().getString());
-							AttachmentEntrypoint.LOGGER.error("Sync Type: {}", payload.debugInfo().type());
-							AttachmentEntrypoint.LOGGER.error("Stack trace before sending packet:\n {}", payload.debugInfo().stackTrace());
+							AttachmentSyncDebug.AttSyncDebugInfo debugInfo = AttachmentSyncDebug.get(payload.debugId());
+
+							AttachmentEntrypoint.LOGGER.error("Received attachment change for unknown target!\nSync Type: {}\n{}", debugInfo.type(), e.getComponent().getString());
+							AttachmentEntrypoint.LOGGER.error("Stack trace before sending packet:\n{}", debugInfo.stackTrace());
 							break;
 						}
 					}
