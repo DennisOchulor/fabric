@@ -5,7 +5,7 @@
   "mixins": [
     "BlockEntityTypeAccessor",
     "ZombieAccessor",
-    "TheMixin"
+    "mutant_monsters.ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

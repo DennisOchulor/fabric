@@ -36,8 +36,6 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 
 import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 
-import java.util.UUID;
-
 public sealed interface AttachmentTargetInfo<T> {
 	int MAX_SIZE_IN_BYTES = Byte.BYTES + Long.BYTES + 100;
 	StreamCodec<ByteBuf, AttachmentTargetInfo<?>> PACKET_CODEC = ByteBufCodecs.BYTE.dispatch(

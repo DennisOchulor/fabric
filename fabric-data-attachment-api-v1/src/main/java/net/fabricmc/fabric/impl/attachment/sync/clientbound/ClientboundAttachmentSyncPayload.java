@@ -29,9 +29,7 @@ import net.minecraft.resources.Identifier;
 import net.fabricmc.fabric.impl.attachment.sync.AttachmentChange;
 
 public record ClientboundAttachmentSyncPayload(List<AttachmentChange> attachments, AttSyncDebugInfo debugInfo) implements CustomPacketPayload {
-
 	public record AttSyncDebugInfo(String type, String stackTrace) {
-
 		public AttSyncDebugInfo(String type) {
 			this(type, ExceptionUtils.getStackTrace(new Exception("att sync debug stack trace")));
 		}
