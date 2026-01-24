@@ -49,11 +49,11 @@ abstract class EntityMixin implements AttachmentTargetImpl {
 	public abstract Level level();
 
 	@Shadow
-	protected String stringUUID;
-
-	@Shadow
 	@Final
 	private EntityType<?> type;
+
+	@Shadow
+	public abstract EntityType<?> getType();
 
 	@Inject(
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;readAdditionalSaveData(Lnet/minecraft/world/level/storage/ValueInput;)V"),
@@ -73,7 +73,7 @@ abstract class EntityMixin implements AttachmentTargetImpl {
 
 	@Override
 	public AttachmentTargetInfo<?> fabric_getSyncTargetInfo() {
-		return new AttachmentTargetInfo.EntityTarget(this.id, this.stringUUID, this.type.toString());
+		return new AttachmentTargetInfo.EntityTarget(this.id, this.type.toString());
 	}
 
 	@Override
@@ -107,8 +107,8 @@ abstract class EntityMixin implements AttachmentTargetImpl {
 
 	@Inject(method = "setId", at = @At("HEAD"))
 	private void setId(int id, CallbackInfo ci) {
-		var oldTargetInfo = new AttachmentTargetInfo.EntityTarget(this.id);
-		var newTargetInfo = new AttachmentTargetInfo.EntityTarget(id);
+		var oldTargetInfo = new AttachmentTargetInfo.EntityTarget(this.id, this.getType().toString());
+		var newTargetInfo = new AttachmentTargetInfo.EntityTarget(id, this.getType().toString());
 		fabric_updateSyncTarget(oldTargetInfo, newTargetInfo);
 	}
 }

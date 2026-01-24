@@ -102,10 +102,9 @@ public sealed interface AttachmentTargetInfo<T> {
 		}
 	}
 
-	record EntityTarget(int networkId, String uuid, String entityType) implements AttachmentTargetInfo<Entity> {
+	record EntityTarget(int networkId, String entityType) implements AttachmentTargetInfo<Entity> {
 		static final StreamCodec<ByteBuf, EntityTarget> PACKET_CODEC = StreamCodec.composite(
 				ByteBufCodecs.VAR_INT, EntityTarget::networkId,
-				ByteBufCodecs.STRING_UTF8, EntityTarget::uuid,
 				ByteBufCodecs.STRING_UTF8, Object::toString,
 				EntityTarget::new
 		);
