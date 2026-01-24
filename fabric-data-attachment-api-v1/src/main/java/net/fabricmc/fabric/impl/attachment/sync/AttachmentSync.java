@@ -51,7 +51,7 @@ public class AttachmentSync implements ModInitializer {
 		return new ServerboundAcceptedAttachmentsPayload(AttachmentRegistryImpl.getSyncableAttachments());
 	}
 
-	public static void trySync(AttachmentChange change, ServerPlayer player) {
+	public static void trySync(AttachmentChange change, ServerPlayer player, String syncType) {
 		if (player.connection == null) {
 			return;
 		}
@@ -60,7 +60,7 @@ public class AttachmentSync implements ModInitializer {
 				.fabric_getSupportedAttachments();
 
 		if (supported.contains(change.type().identifier())) {
-			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(List.of(change), AttachmentSyncDebug.nextDebugInfo("incremental")));
+			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(List.of(change), AttachmentSyncDebug.nextDebugInfo(syncType)));
 		}
 	}
 
@@ -120,7 +120,7 @@ public class AttachmentSync implements ModInitializer {
 			((AttachmentTargetImpl) player).fabric_computeInitialSyncChanges(player, changes::add);
 
 			if (!changes.isEmpty()) {
-				AttachmentChange.partitionAndSendPackets(changes, player);
+				AttachmentChange.partitionAndSendPackets(changes, player, "initial");
 			}
 		});
 
@@ -131,7 +131,7 @@ public class AttachmentSync implements ModInitializer {
 			((AttachmentTargetImpl) destination).fabric_computeInitialSyncChanges(player, changes::add);
 
 			if (!changes.isEmpty()) {
-				AttachmentChange.partitionAndSendPackets(changes, player);
+				AttachmentChange.partitionAndSendPackets(changes, player, "initial");
 			}
 		});
 
@@ -140,7 +140,7 @@ public class AttachmentSync implements ModInitializer {
 			((AttachmentTargetImpl) trackedEntity).fabric_computeInitialSyncChanges(player, changes::add);
 
 			if (!changes.isEmpty()) {
-				AttachmentChange.partitionAndSendPackets(changes, player);
+				AttachmentChange.partitionAndSendPackets(changes, player, "initial");
 			}
 		});
 	}

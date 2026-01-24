@@ -90,7 +90,7 @@ public record AttachmentChange(AttachmentTargetInfo<?> targetInfo, AttachmentTyp
 		return new AttachmentChange(targetInfo, type, encoded);
 	}
 
-	public static void partitionAndSendPackets(List<AttachmentChange> changes, ServerPlayer player) {
+	public static void partitionAndSendPackets(List<AttachmentChange> changes, ServerPlayer player, String syncType) {
 		Set<Identifier> supported = ((SupportedAttachmentsConnection) ((ServerCommonPacketListenerImplAccessor) player.connection).getConnection())
 				.fabric_getSupportedAttachments();
 		// sort by size to better partition packets
@@ -107,7 +107,7 @@ public record AttachmentChange(AttachmentTargetInfo<?> targetInfo, AttachmentTyp
 			int size = MAX_PADDING_SIZE_IN_BYTES + change.data.length;
 
 			if (!packetChanges.isEmpty() && byteSize + size > MAX_DATA_SIZE_IN_BYTES) {
-				ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(List.copyOf(packetChanges), AttachmentSyncDebug.nextDebugInfo("initial")));
+				ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(List.copyOf(packetChanges), AttachmentSyncDebug.nextDebugInfo(syncType)));
 				packetChanges.clear();
 				byteSize = maxVarIntSize;
 			}
@@ -117,7 +117,7 @@ public record AttachmentChange(AttachmentTargetInfo<?> targetInfo, AttachmentTyp
 		}
 
 		if (!packetChanges.isEmpty()) {
-			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(packetChanges, AttachmentSyncDebug.nextDebugInfo("initial")));
+			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(packetChanges, AttachmentSyncDebug.nextDebugInfo(syncType)));
 		}
 	}
 

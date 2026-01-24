@@ -23,7 +23,7 @@ public class ChunkHolderMixin {
 	private void broadcastBlockEntity(List<ServerPlayer> players, Level level, BlockPos blockPos, CallbackInfo ci, @Local(name = "blockEntity") BlockEntity blockEntity) {
 		if (blockEntity != null) {
 			((AttachmentTargetImpl) blockEntity).fabric_computeAndClearDeferredSyncChanges(players).forEach((serverPlayer, attachmentChanges) -> {
-				AttachmentChange.partitionAndSendPackets(attachmentChanges, serverPlayer);
+				AttachmentChange.partitionAndSendPackets(attachmentChanges, serverPlayer, "deferred");
 			});
 		}
 	}
