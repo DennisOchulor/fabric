@@ -81,7 +81,7 @@ abstract class BlockEntityMixin implements AttachmentTargetImpl {
 			// Otherwise it will execute when the chunk's load future completes
 			// Prevents server thread deadlock, see https://github.com/FabricMC/fabric-api/issues/4718
 			ChunkPos chunkPos = ChunkPos.containing(this.worldPosition);
-			((ServerChunkCacheInvoker) serverLevel.getChunkSource()).getChunkFutureMainThread(chunkPos.x(), chunkPos.z(), ChunkStatus.FULL, false)
+			((ServerChunkCacheInvoker) serverLevel.getChunkSource()).fabric_getChunkFutureMainThread(chunkPos.x(), chunkPos.z(), ChunkStatus.FULL, false)
 					.thenAccept(chunkResult -> chunkResult.ifSuccess(_ -> this.setChanged()));
 		} else {
 			this.setChanged();

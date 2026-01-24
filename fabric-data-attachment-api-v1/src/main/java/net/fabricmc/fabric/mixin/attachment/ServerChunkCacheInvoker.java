@@ -13,7 +13,7 @@ import net.minecraft.world.level.chunk.status.ChunkStatus;
 @Mixin(ServerChunkCache.class)
 public interface ServerChunkCacheInvoker {
 	@Invoker("getChunkFutureMainThread")
-	CompletableFuture<ChunkResult<ChunkAccess>> getChunkFutureMainThread(
+	CompletableFuture<ChunkResult<ChunkAccess>> fabric_getChunkFutureMainThread(
 			final int x, final int z, final ChunkStatus targetStatus, final boolean loadOrGenerate
 	);
 }
