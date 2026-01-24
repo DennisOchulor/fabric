@@ -26,8 +26,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
@@ -73,7 +76,16 @@ abstract class BlockEntityMixin implements AttachmentTargetImpl {
 
 	@Override
 	public void fabric_markChanged(AttachmentType<?> type) {
-		this.setChanged();
+		if (this.level instanceof ServerLevel serverLevel) {
+			// If chunk is already fully loaded, then it will execute immediately
+			// Otherwise it will execute when the chunk's load future completes
+			// Prevents server thread deadlock, see https://github.com/FabricMC/fabric-api/issues/4718
+			ChunkPos chunkPos = ChunkPos.containing(this.worldPosition);
+			((ServerChunkCacheInvoker) serverLevel.getChunkSource()).getChunkFutureMainThread(chunkPos.x(), chunkPos.z(), ChunkStatus.FULL, false)
+					.thenAccept(chunkResult -> chunkResult.ifSuccess(_ -> this.setChanged()));
+		} else {
+			this.setChanged();
+		}
 	}
 
 	@Override

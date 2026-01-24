@@ -8,10 +8,7 @@ public class BlockEntityDebug {
 		if (!AttachmentTestMod.DEBUG_BLOCK_ENTITY) return;
 
 		ServerBlockEntityEvents.BLOCK_ENTITY_LOAD.register((blockEntity, level) -> {
-			// execute() to avoid deadlock
-			level.getServer().execute(() -> {
-				blockEntity.modifyAttached(AttachmentTestMod.SYNCED_WITH_ALL, bl -> bl == null || !bl);
-			});
+			blockEntity.modifyAttached(AttachmentTestMod.SYNCED_WITH_ALL, bl -> bl == null || !bl);
 		});
 	}
 }

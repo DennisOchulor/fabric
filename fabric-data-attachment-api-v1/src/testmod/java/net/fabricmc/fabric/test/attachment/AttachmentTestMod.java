@@ -104,8 +104,8 @@ public class AttachmentTestMod implements ModInitializer {
 	);
 
 	// DEBUG
-	public static final boolean DEBUG_MUTANT_MONSTERS = true;
-	public static final boolean DEBUG_BLOCK_ENTITY = false;
+	public static final boolean DEBUG_MUTANT_MONSTERS = false;
+	public static final boolean DEBUG_BLOCK_ENTITY = true;
 
 	@Override
 	public void onInitialize() {
