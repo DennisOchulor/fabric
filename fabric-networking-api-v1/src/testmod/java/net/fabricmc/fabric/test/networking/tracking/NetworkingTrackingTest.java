@@ -49,7 +49,7 @@ public class NetworkingTrackingTest implements ModInitializer {
 		});
 
 		ServerChunkEvents.CHUNK_LOAD.register((level, chunk, _) -> {
-			//PlayerLookup.tracking(level, chunk.getPos()).forEach(player -> ServerPlayNetworking.send(player, new ChunkTrackingPayload(chunk.getPos())));
+			PlayerLookup.tracking(level, chunk.getPos()).forEach(player -> ServerPlayNetworking.send(player, new ChunkTrackingPayload(chunk.getPos())));
 		});
 
 		ServerBlockEntityEvents.BLOCK_ENTITY_LOAD.register((blockEntity, _) -> {

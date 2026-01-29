@@ -144,9 +144,9 @@ public final class PlayerLookup {
 			throw new IllegalArgumentException("Only supported on server levels!");
 		}
 
-//		if (!((BlockEntitySyncTracker) blockEntity).fabric_hasSyncedToAnyClients()) {
-//			return List.of();
-//		}
+		if (!((BlockEntitySyncTracker) blockEntity).fabric_hasSyncedToAnyClients()) {
+			return List.of();
+		}
 
 		return tracking((ServerLevel) blockEntity.getLevel(), blockEntity.getBlockPos());
 	}
