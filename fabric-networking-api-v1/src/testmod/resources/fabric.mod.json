@@ -16,7 +16,8 @@
       "net.fabricmc.fabric.test.networking.keybindreciever.NetworkingKeybindPacketTest",
       "net.fabricmc.fabric.test.networking.login.NetworkingLoginQueryTest",
       "net.fabricmc.fabric.test.networking.play.NetworkingPlayPacketTest",
-      "net.fabricmc.fabric.test.networking.splitter.NetworkingSplitterTest"
+      "net.fabricmc.fabric.test.networking.splitter.NetworkingSplitterTest",
+      "net.fabricmc.fabric.test.networking.tracking.NetworkingTrackingTest"
     ],
     "client": [
       "net.fabricmc.fabric.test.networking.client.channeltest.NetworkingChannelClientTest",
@@ -26,7 +27,8 @@
       "net.fabricmc.fabric.test.networking.client.keybindreciever.NetworkingKeybindClientPacketTest",
       "net.fabricmc.fabric.test.networking.client.login.NetworkingLoginQueryClientTest",
       "net.fabricmc.fabric.test.networking.client.play.NetworkingPlayPacketClientTest",
-      "net.fabricmc.fabric.test.networking.client.splitter.NetworkingSplitterClientTest"
+      "net.fabricmc.fabric.test.networking.client.splitter.NetworkingSplitterClientTest",
+      "net.fabricmc.fabric.test.networking.client.tracking.NetworkingTrackingClientTest"
     ]
   }
 }
