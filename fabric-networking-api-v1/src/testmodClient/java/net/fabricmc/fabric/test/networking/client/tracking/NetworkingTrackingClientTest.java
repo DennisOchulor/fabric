@@ -29,7 +29,7 @@ public class NetworkingTrackingClientTest implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(NetworkingTrackingTest.LevelTrackingPayload.TYPE, (payload, context) -> {
 			ClientLevel level = context.client().level;
 
-			if (level.dimension().identifier() != payload.level()) {
+			if (level.dimension().identifier().equals(payload.level())) {
 				throw new AssertionError("Received tracking packet for unknown level: " + payload.level());
 			}
 		});
