@@ -61,7 +61,7 @@ public class NetworkingTrackingTest implements ModInitializer {
 		});
 
 		ServerTickEvents.END_LEVEL_TICK.register(level -> {
-			if (level.getServer().getTickCount() % 200 != 0) {
+			if (level.getServer().getTickCount() % 100 != 0) {
 				return;
 			}
 
