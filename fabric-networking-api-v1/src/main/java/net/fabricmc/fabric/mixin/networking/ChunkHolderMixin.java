@@ -19,8 +19,8 @@ import net.fabricmc.fabric.impl.networking.BlockEntitySyncTracker;
 @Mixin(ChunkHolder.class)
 public class ChunkHolderMixin {
 	@Inject(method = "broadcastBlockEntity", at = @At("TAIL"))
-	private void markBlockEntityAsSynced(List<ServerPlayer> players, Level level, BlockPos blockPos,
-										 CallbackInfo ci, @Local(name = "blockEntity") BlockEntity blockEntity) {
+	private void markBlockEntityAsSynced(List<ServerPlayer> players, Level level, BlockPos blockPos, CallbackInfo ci,
+										@Local(name = "blockEntity") BlockEntity blockEntity) {
 		if (blockEntity != null) {
 			((BlockEntitySyncTracker) blockEntity).fabric_setHasSyncedToAnyClients();
 		}
