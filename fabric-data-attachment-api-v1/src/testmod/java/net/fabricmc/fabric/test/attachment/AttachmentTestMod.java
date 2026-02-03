@@ -45,6 +45,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 
@@ -110,6 +111,10 @@ public class AttachmentTestMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ServerChunkEvents.CHUNK_LOAD.register((level, chunk, generated) -> {
+			chunk.setAttached(SYNCED_WITH_ALL, true);
+		});
+
 		Registry.register(BuiltInRegistries.FEATURE, Identifier.fromNamespaceAndPath(MOD_ID, "set_attachment"), new SetAttachmentFeature(NoneFeatureConfiguration.CODEC));
 
 		BiomeModifications.addFeature(
