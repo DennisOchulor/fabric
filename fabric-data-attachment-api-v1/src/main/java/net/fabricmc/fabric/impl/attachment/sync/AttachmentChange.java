@@ -126,12 +126,7 @@ public record AttachmentChange(AttachmentTargetInfo<?> targetInfo, AttachmentTyp
 					.append(CommonComponents.NEW_LINE);
 			targetInfo.appendDebugInformation(errorMessageComponent);
 
-			if (DISCONNECT_ON_UNKNOWN_TARGETS) {
-				throw new AttachmentSyncException(errorMessageComponent);
-			}
-
-			LOGGER.warn(errorMessageComponent.getString().trim());
-			return;
+			throw new AttachmentSyncException(errorMessageComponent);
 		}
 
 		target.setAttached((AttachmentType<Object>) type, value);
