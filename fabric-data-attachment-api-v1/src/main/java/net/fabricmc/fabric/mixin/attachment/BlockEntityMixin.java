@@ -116,7 +116,7 @@ abstract class BlockEntityMixin implements AttachmentTargetImpl {
 		PlayerLookup.tracking((BlockEntity) (Object) this)
 				.forEach(player -> {
 					if (((AttachmentTypeImpl<?>) type).syncPredicate().test(this, player)) {
-						AttachmentSync.trySync(change, player);
+						AttachmentSync.trySync(change, player, "incremental");
 					}
 				});
 	}

@@ -74,13 +74,13 @@ abstract class EntityMixin implements AttachmentTargetImpl {
 
 			if ((Object) this instanceof ServerPlayer self && predicate.test(this, self)) {
 				// Players do not track themselves
-				AttachmentSync.trySync(change, self);
+				AttachmentSync.trySync(change, self, "incremental");
 			}
 
 			PlayerLookup.tracking((Entity) (Object) this)
 					.forEach(player -> {
 						if (predicate.test(this, player)) {
-							AttachmentSync.trySync(change, player);
+							AttachmentSync.trySync(change, player, "incremental");
 						}
 					});
 		}

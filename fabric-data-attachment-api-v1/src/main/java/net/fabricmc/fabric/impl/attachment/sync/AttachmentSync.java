@@ -68,7 +68,7 @@ public class AttachmentSync implements ModInitializer {
 		return new ServerboundAcceptedAttachmentsPayload(AttachmentRegistryImpl.getSyncableAttachments());
 	}
 
-	public static void trySync(AttachmentChange change, ServerPlayer player) {
+	public static void trySync(AttachmentChange change, ServerPlayer player, String syncType) {
 		if (player.connection == null) {
 			return;
 		}
@@ -77,18 +77,18 @@ public class AttachmentSync implements ModInitializer {
 				.fabric_getSupportedAttachments();
 
 		if (supported.contains(change.type().identifier())) {
-			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(change));
+			ServerPlayNetworking.send(player, new ClientboundAttachmentSyncPayload(change, AttachmentSyncDebug.nextDebugInfo(syncType)));
 		}
 	}
 
-	public static void trySync(List<AttachmentChange> changes, ServerPlayer player) {
+	public static void trySync(List<AttachmentChange> changes, ServerPlayer player, String syncType) {
 		Set<Identifier> supported = ((SupportedAttachmentsConnection) ((ServerCommonPacketListenerImplAccessor) player.connection).getConnection())
 				.fabric_getSupportedAttachments();
 
 		List<Packet<? super ClientGamePacketListener>> syncableChanges = new ArrayList<>();
 		changes.forEach(change -> {
 			if (supported.contains(change.type().identifier())) {
-				syncableChanges.add(ServerPlayNetworking.createClientboundPacket(new ClientboundAttachmentSyncPayload(change)));
+				syncableChanges.add(ServerPlayNetworking.createClientboundPacket(new ClientboundAttachmentSyncPayload(change, AttachmentSyncDebug.nextDebugInfo(syncType))));
 			}
 		});
 
@@ -153,7 +153,7 @@ public class AttachmentSync implements ModInitializer {
 			((AttachmentTargetImpl) player).fabric_computeInitialSyncChanges(player, changes::add);
 
 			if (!changes.isEmpty()) {
-				trySync(changes, player);
+				trySync(changes, player, "initial");
 			}
 		});
 
@@ -164,7 +164,7 @@ public class AttachmentSync implements ModInitializer {
 			((AttachmentTargetImpl) destination).fabric_computeInitialSyncChanges(player, changes::add);
 
 			if (!changes.isEmpty()) {
-				trySync(changes, player);
+				trySync(changes, player, "initial");
 			}
 		});
 
@@ -173,7 +173,7 @@ public class AttachmentSync implements ModInitializer {
 			((AttachmentTargetImpl) trackedEntity).fabric_computeInitialSyncChanges(player, changes::add);
 
 			if (!changes.isEmpty()) {
-				trySync(changes, player);
+				trySync(changes, player, "initial");
 			}
 		});
 	}

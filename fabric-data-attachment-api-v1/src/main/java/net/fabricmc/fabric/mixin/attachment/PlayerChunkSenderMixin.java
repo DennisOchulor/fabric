@@ -50,7 +50,7 @@ abstract class PlayerChunkSenderMixin {
 		((AttachmentTargetImpl) chunk).fabric_computeInitialSyncChanges(player, changes::add);
 
 		if (!changes.isEmpty()) {
-			AttachmentSync.trySync(changes, player);
+			AttachmentSync.trySync(changes, player, "initial");
 		}
 	}
 }
