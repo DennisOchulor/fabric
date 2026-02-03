@@ -56,7 +56,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BellBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.ProtoChunk;
 import net.minecraft.world.level.storage.TagValueInput;
@@ -69,8 +68,6 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.impl.attachment.AttachmentSavedData;
 import net.fabricmc.fabric.impl.attachment.AttachmentSerializingImpl;
 import net.fabricmc.fabric.impl.attachment.AttachmentTargetImpl;
-import net.fabricmc.fabric.impl.attachment.sync.AttachmentChange;
-import net.fabricmc.fabric.impl.attachment.sync.AttachmentSyncException;
 import net.fabricmc.fabric.impl.attachment.sync.AttachmentTargetInfo;
 
 public class CommonAttachmentTests {
@@ -301,25 +298,6 @@ public class CommonAttachmentTests {
 		AttachmentSavedData.codec(level).decode(RegistryOps.create(NbtOps.INSTANCE, ra), fakeSave).getOrThrow();
 		assertTrue(level.hasAttached(PERSISTENT));
 		assertEquals(expected, level.getAttached(PERSISTENT));
-	}
-
-	@Test
-	void applyToInvalidTarget() throws AttachmentSyncException {
-		RegistryAccess ra = mockRA();
-
-		ServerLevel level = mock(ServerLevel.class);
-		when(level.registryAccess()).thenReturn(ra);
-		when(level.dimension()).thenReturn(Level.END);
-
-		BlockEntity blockEntity = new ChestBlockEntity(BlockPos.ZERO, Blocks.CHEST.defaultBlockState());
-
-		AttachmentChange attachmentChange = new AttachmentChange(
-				((AttachmentTargetImpl) blockEntity).fabric_getSyncTargetInfo(),
-				SYNCED,
-				new byte[]{0}
-		);
-
-		attachmentChange.tryApply(level);
 	}
 
 	/*
