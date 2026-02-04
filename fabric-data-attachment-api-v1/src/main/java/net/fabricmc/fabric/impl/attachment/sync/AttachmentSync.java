@@ -82,9 +82,8 @@ public class AttachmentSync implements ModInitializer {
 	}
 
 	public static void trySync(List<AttachmentChange> changes, ServerPlayer player, String syncType) {
-	public static void trySync(List<AttachmentChange> changes, ServerPlayer player) {
 		if (changes.size() == 1) {
-			trySync(changes.getFirst(), player);
+			trySync(changes.getFirst(), player, syncType);
 			return;
 		}
 

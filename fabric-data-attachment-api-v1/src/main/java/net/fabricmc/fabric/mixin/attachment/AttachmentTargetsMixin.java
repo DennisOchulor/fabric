@@ -246,7 +246,7 @@ abstract class AttachmentTargetsMixin implements AttachmentTargetImpl {
 			}
 
 			if (!syncableChanges.isEmpty()) {
-				AttachmentSync.trySync(syncableChanges, player);
+				AttachmentSync.trySync(syncableChanges, player, "deferred");
 			}
 		}
 
