@@ -37,6 +37,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
@@ -152,6 +153,18 @@ public class SyncGametest implements FabricClientGameTest {
 					ClientLevel level = Objects.requireNonNull(client.level);
 					Entity villager = level.getEntity(state.villagerId);
 					BlockEntity furnace = level.getBlockEntity(state.furnacePos);
+
+					if (villager == null) {
+						throw new AssertionError("VILLAGER NULL!");
+					}
+
+					if (level.getChunk(0, 0, ChunkStatus.FULL, false) == null) {
+						throw new AssertionError("CHUNK NULL!");
+					}
+
+					if (furnace == null) {
+						throw new AssertionError("FURNACE NULL!");
+					}
 
 					assertHasSyncedWithAll(furnace);
 					assertHasSyncedWithAll(villager);
