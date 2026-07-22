@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-@NullMarked
+/**
+ * Implementation code for fabric-networking-api-v1.
+ */
 @ApiStatus.Internal
-package net.fabricmc.fabric.impl.permission;
+@NullMarked
+package net.fabricmc.fabric.impl.networking.context;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NullMarked;

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
+/**
+ * API code for fabric-rendering-v1.
+ */
 @NullMarked
-@ApiStatus.Internal
-package net.fabricmc.fabric.impl.permission;
+package net.fabricmc.fabric.api.client.rendering.v1.advancement;
 
-import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NullMarked;

@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-@NullMarked
+/**
+ * Implementation code for fabric-renderer-indigo.
+ */
 @ApiStatus.Internal
-package net.fabricmc.fabric.impl.permission;
+@NullMarked
+package net.fabricmc.fabric.impl.client.indigo.renderer.aocalc;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NullMarked;

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
+/**
+ * API code for fabric-data-generation-api-v1.
+ */
 @NullMarked
-@ApiStatus.Internal
-package net.fabricmc.fabric.impl.permission;
+package net.fabricmc.fabric.api.datagen.v1.provider;
 
-import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NullMarked;

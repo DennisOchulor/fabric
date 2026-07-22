@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-@NullMarked
+/**
+ * Implementation code for fabric-lifecycle-events-v1.
+ */
 @ApiStatus.Internal
-package net.fabricmc.fabric.impl.permission;
+@NullMarked
+package net.fabricmc.fabric.impl.client.event.lifecycle;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NullMarked;

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
+/**
+ * API code for fabric-content-registries-v0.
+ */
 @NullMarked
-@ApiStatus.Internal
-package net.fabricmc.fabric.impl.permission;
+package net.fabricmc.fabric.api.registry.fluid;
 
-import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.NullMarked;
